@@ -1,22 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import ArticleList from './components/ArticleList';
-import Header from './components/Header';
+import React from 'react';
+import './App.css';
+import Home from './pages/Home'
 
-function App() {
-  const [articles, setArticles] = useState([]);
+const App = () => <Home />;
 
-  useEffect(() => {
-    fetch('http://localhost:3000/articles')
-      .then(response => response.json())
-      .then(data => setArticles(data));
-  }, []);
-
-  return (
-    <div>
-      <Header />
-      <ArticleList articles={articles} />
-    </div>
-  );
-}
-
-export default App;
+export default App
