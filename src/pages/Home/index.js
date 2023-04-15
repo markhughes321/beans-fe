@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ArticleList from '../../components/ArticleList';
 import Header from '../../components/Header';
+import "./style.css";
+
 
 function Home() {
   const [articles, setArticles] = useState([]);
@@ -12,9 +14,9 @@ function Home() {
   }, []);
 
   return (
-    <div className="container">
+    <div>
       <Header />
-      <div className="article-list-wrapper">
+      <div className="article-container">
         <ArticleList articles={articles} />
       </div>
     </div>
