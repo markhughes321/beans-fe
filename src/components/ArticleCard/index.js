@@ -1,24 +1,46 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { FaLink as LinkIcon } from "react-icons/fa";
 import "./style.css";
 
-function ArticleCard({ article }) {
-  const {
+function truncateText(text, wordLimit) {
+  const words = text.split(" ");
+  return words.length > wordLimit ? `${words.slice(0, wordLimit).join(" ")}...` : text;
+}
+
+function ArticleCard({
+  article: {
     articleSource,
     articleTitle,
+    articleUrl,
     articleImageUrl,
     articleCreatedDate,
     articleIntro,
-  } = article;
+  },
+}) {
+  const copyLinkToClipboard = (e) => {
+    e.preventDefault();
+    navigator.clipboard.writeText(articleUrl).then(() => {
+      alert("Link copied to clipboard!");
+    });
+  };
 
   return (
     <div className="article-card">
       <a
         className="article-link"
-        href={article.articleUrl}
+        href={articleUrl}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <p className="article-domain">{articleSource}</p>
+        <div className="article-header">
+          <p className="article-domain">{articleSource}</p>
+          <LinkIcon
+            className="chain-icon"
+            onClick={copyLinkToClipboard}
+            title="Copy link to clipboard"
+          />
+        </div>
         <h2 className="article-title">{articleTitle}</h2>
         <div className="article-image-container">
           <img
@@ -27,11 +49,17 @@ function ArticleCard({ article }) {
             alt={articleTitle}
           />
         </div>
-        <p className="article-date">{articleCreatedDate}</p>
-        <p className="article-description">{articleIntro}</p>
+        <time className="article-date" dateTime={articleCreatedDate}>
+          {articleCreatedDate}
+        </time>
+        <p className="article-description">{truncateText(articleIntro, 40)}</p>
       </a>
     </div>
   );
 }
+
+ArticleCard.propTypes = {
+  article: PropTypes.object.isRequired,
+};
 
 export default ArticleCard;
